@@ -12,55 +12,55 @@ namespace Talabat.Repository.Data.Migrations
                 name: "productBrands",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_productBrands", x => x.id);
+                    table.PrimaryKey("PK_productBrands", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "productTypes",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_productTypes", x => x.id);
+                    table.PrimaryKey("PK_productTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "products",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18.2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ProductBrandId = table.Column<int>(type: "int", nullable: false),
                     ProductTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_products", x => x.id);
+                    table.PrimaryKey("PK_products", x => x.Id);
                     table.ForeignKey(
                         name: "FK_products_productBrands_ProductBrandId",
                         column: x => x.ProductBrandId,
                         principalTable: "productBrands",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_products_productTypes_ProductTypeId",
                         column: x => x.ProductTypeId,
                         principalTable: "productTypes",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

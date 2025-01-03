@@ -35,7 +35,7 @@ namespace Talabat.Repository.Data.Configrations
             builder.Property(P => P.PictureUrl)
                    .IsRequired();
 
-            builder.Property(P => P.Price).HasColumnType("decimal(18.2)");
+            builder.Property(P => P.Price).HasColumnType("decimal(18,2)");
 
 
 

@@ -13,7 +13,7 @@ namespace Talabat.Repository.Data.Configrations
     {
         public void Configure(EntityTypeBuilder<ProductType> builder)
         {
-            builder.Property(P => P.Name);
+            builder.Property(P => P.Name).IsRequired(); 
         }
     }
 }

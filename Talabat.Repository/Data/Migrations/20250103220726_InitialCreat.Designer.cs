@@ -11,7 +11,7 @@ using Talabat.Repository.Data;
 namespace Talabat.Repository.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20250103192638_InitialCreat")]
+    [Migration("20250103220726_InitialCreat")]
     partial class InitialCreat
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,11 +25,11 @@ namespace Talabat.Repository.Data.Migrations
 
             modelBuilder.Entity("Talabat.Core.Entites.Product", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -45,7 +45,7 @@ namespace Talabat.Repository.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18.2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductBrandId")
                         .HasColumnType("int");
@@ -53,7 +53,7 @@ namespace Talabat.Repository.Data.Migrations
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProductBrandId");
 
@@ -64,34 +64,34 @@ namespace Talabat.Repository.Data.Migrations
 
             modelBuilder.Entity("Talabat.Core.Entites.ProductBrand", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("productBrands");
                 });
 
             modelBuilder.Entity("Talabat.Core.Entites.ProductType", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("productTypes");
                 });

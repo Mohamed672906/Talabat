@@ -27,7 +27,25 @@ namespace Talabat.ABIS
 
 
 
-            var app = builder.Build();
+            using var app = builder.Build();
+
+
+            #region Update-Database
+
+            var Scope = app.Services.CreateScope();
+
+            var Services = Scope.ServiceProvider;
+
+            var DbContext = Services.GetRequiredService<StoreContext>();
+
+            DbContext.Database.MigrateAsync();  
+            
+
+
+
+
+
+            #endregion
 
             #region Configure
 
