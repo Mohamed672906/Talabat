@@ -36,14 +36,15 @@ namespace Talabat.ABIS
 
             var Services = Scope.ServiceProvider;
 
-            var LoggerFactory = Services.GetRequiredService<LoggerFactory>();
+            var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
                         
            try
             {
 
-            var DbContext = Services.GetRequiredService<StoreContext>();
+            var dbContext = Services.GetRequiredService<StoreContext>();
 
-           await DbContext.Database.MigrateAsync();  
+           await dbContext.Database.MigrateAsync();
+           await StoreContextSeed.SeedAsync(dbContext);
 
             }
             catch (Exception ex)
@@ -56,7 +57,7 @@ namespace Talabat.ABIS
 
             #endregion
 
-
+            
 
             #region Configure
 
