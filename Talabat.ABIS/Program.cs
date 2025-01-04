@@ -6,7 +6,7 @@ namespace Talabat.ABIS
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -36,16 +36,27 @@ namespace Talabat.ABIS
 
             var Services = Scope.ServiceProvider;
 
+            var LoggerFactory = Services.GetRequiredService<LoggerFactory>();
+                        
+           try
+            {
+
             var DbContext = Services.GetRequiredService<StoreContext>();
 
-            DbContext.Database.MigrateAsync();  
-            
+           await DbContext.Database.MigrateAsync();  
 
-
+            }
+            catch (Exception ex)
+            {
+                var Logger = LoggerFactory.CreateLogger<Program>();
+                Logger.LogError(ex,"An Error Occured During Appling The Migration");
+            }
 
 
 
             #endregion
+
+
 
             #region Configure
 
