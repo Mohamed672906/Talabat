@@ -20,25 +20,24 @@ namespace Talabat.ABIS.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
 
             var Products =await _productRepo.GetAllAsync();
             return Ok(Products);
-
-
-        }
-
-
-
-
-
-
+          }
 
         //Get Product by Id 
 
+        [HttpGet("{id}")]
 
+        public async Task<ActionResult<Product>> GetProduct(int id)
+        {
 
+            var Products = await _productRepo.GetByIdAsync(id);
+            return Ok(Products);
+
+        }
 
 
 
