@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Talabat.ABIS.Helpers;
 using Talabat.Core.Entites;
 using Talabat.Core.Repositories;
 using Talabat.Repository;
@@ -26,9 +27,19 @@ namespace Talabat.ABIS
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            #endregion
             //  builder.Services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
+            //builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
+            builder.Services.AddAutoMapper(typeof(MappingProfiles));
+
+
+
+
+
+            #endregion
+
 
             using var app = builder.Build();
 
@@ -70,7 +81,7 @@ namespace Talabat.ABIS
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
