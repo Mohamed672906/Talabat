@@ -26,6 +26,7 @@ namespace Talabat.ABIS.Controllers
             var Spec = new ProductWithBrandAndtypeSpecification();
             var Products = await _productRepo.GetAllWithSpecAsync(Spec);
             return Ok(Products);
+
           }
 
         //Get Product by Id 
@@ -34,8 +35,8 @@ namespace Talabat.ABIS.Controllers
 
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-
-            var Products = await _productRepo.GetByIdAsync(id);
+            var Spec = new ProductWithBrandAndtypeSpecification(id);
+            var Products = await _productRepo.GetByIdWithSpecAsync(Spec);
             return Ok(Products);
 
         }

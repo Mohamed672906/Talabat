@@ -17,7 +17,13 @@ namespace Talabat.Core.Specifications
 
         }
 
+       // CTOR Is Used For Product By Id 
+        public ProductWithBrandAndtypeSpecification(int id ):base(P=>P.Id == id)
+        {
 
+            Includes.Add(P => P.ProductBrand);
+            Includes.Add(P => P.ProductType);
+        }
 
     }
 }
