@@ -20,7 +20,7 @@ namespace Talabat.Repository
             _dbcontext = dbcontext;
         }
 
-       #region 0
+       #region Wtihout Specififcations
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
@@ -46,7 +46,10 @@ namespace Talabat.Repository
 
         public async Task<IEnumerable<T>> GetAllWithSpecAsync(ISepecifications<T> Spec)
         {
+          //  return await SpesifictionEvalutor<T>.GetQuery(_dbcontext.Set<T>(), Spec).ToListAsync();
+          
             return await ApplySpecifition(Spec).ToListAsync();
+
 
         }
 
@@ -54,16 +57,17 @@ namespace Talabat.Repository
 
         public async Task<T> GetByIdWithSpecAsync(ISepecifications<T> Spec)
         {
-            return await ApplySpecifition(Spec).FirstOrDefaultAsync();
+           // return await SpesifictionEvalutor<T>.GetQuery(_dbcontext.Set<T>(), Spec).FirstOrDefaultAsync();
+          return await ApplySpecifition(Spec).FirstOrDefaultAsync();
+
         }
 
 
         private IQueryable<T> ApplySpecifition(ISepecifications<T> Spec)
         {
-            return SpesifictionEvalutor<T>.GetQuery(_dbcontext.Set<T>(), Spec);
+                return SpesifictionEvalutor<T>.GetQuery(_dbcontext.Set<T>(), Spec);
 
         }
-
 
 
     }

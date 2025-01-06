@@ -25,6 +25,7 @@ namespace Talabat.Core.Specifications
 
         public BaseSepecification(Expression<Func<T, bool>> criteriaexpreission)
         {
+            Criteria = criteriaexpreission;
             // Includes = new List<Expression<Func<T, object>>>();
         }
 

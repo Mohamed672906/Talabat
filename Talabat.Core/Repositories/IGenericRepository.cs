@@ -19,7 +19,7 @@ namespace Talabat.Core.Repositories
         #endregion
 
 
-        #region MyRegion
+        #region With Sepcification
 
         Task<IEnumerable<T>> GetAllWithSpecAsync(ISepecifications<T> Spec);
 

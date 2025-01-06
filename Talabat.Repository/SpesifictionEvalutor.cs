@@ -16,6 +16,8 @@ namespace Talabat.Repository
         public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISepecifications<T> Spec)
         {
 
+            //Funt To Build
+
             var Query = inputQuery;
 
             if(Spec.Criteria is not null)
