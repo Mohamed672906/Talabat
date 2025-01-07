@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.ABIS.DTOs;
+using Talabat.ABIS.Errors;
 using Talabat.Core.Entites;
 using Talabat.Core.Repositories;
 using Talabat.Core.Specifications;
@@ -42,6 +43,7 @@ namespace Talabat.ABIS.Controllers
         {
             var Spec = new ProductWithBrandAndtypeSpecification(id);
             var Products = await _productRepo.GetByIdWithSpecAsync(Spec);
+            if(Products is null) return NotFound(new ApiResponce(404));
             var MappedProduct = _mapper.Map<Product, ProductToReturnDto>(Products);
             return Ok(MappedProduct);
 
