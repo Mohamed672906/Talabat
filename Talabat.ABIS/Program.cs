@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Talabat.ABIS.Errors;
 using Talabat.ABIS.Helpers;
+using Talabat.ABIS.Middelwares;
 using Talabat.Core.Entites;
 using Talabat.Core.Repositories;
 using Talabat.Repository;
@@ -94,6 +95,7 @@ namespace Talabat.ABIS
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseMiddleware<ExpestionMiddelwares>();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
