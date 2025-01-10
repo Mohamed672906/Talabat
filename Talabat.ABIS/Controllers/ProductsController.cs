@@ -33,11 +33,11 @@ namespace Talabat.ABIS.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
         {
             var Spec = new ProductWithBrandAndtypeSpecification();
             var Products = await _productRepo.GetAllWithSpecAsync(Spec);
-            var MappedProduct = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductToReturnDto>>(Products);
+            var MappedProduct = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(Products);
             return Ok(MappedProduct);
 
           }

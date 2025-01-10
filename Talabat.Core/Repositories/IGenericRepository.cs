@@ -12,7 +12,7 @@ namespace Talabat.Core.Repositories
     {
         #region Without Specification
 
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<IReadOnlyList<T>> GetAllAsync();
 
         Task<T> GetByIdAsync(int Id);
 
@@ -21,7 +21,7 @@ namespace Talabat.Core.Repositories
 
         #region With Sepcification
 
-        Task<IEnumerable<T>> GetAllWithSpecAsync(ISepecifications<T> Spec);
+        Task<IReadOnlyList<T>> GetAllWithSpecAsync(ISepecifications<T> Spec);
 
         Task<T> GetByIdWithSpecAsync(ISepecifications<T> Spec); 
         #endregion
