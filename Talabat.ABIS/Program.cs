@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Talabat.ABIS.Errors;
+using Talabat.ABIS.Extensions;
 using Talabat.ABIS.Helpers;
 using Talabat.ABIS.Middelwares;
 using Talabat.Core.Entites;
@@ -26,33 +27,14 @@ namespace Talabat.ABIS
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+
             builder.Services.AddDbContext<StoreContext>(option=>
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            //  builder.Services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
-            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-
-            //builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
-            builder.Services.AddAutoMapper(typeof(MappingProfiles));
-            builder.Services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.InvalidModelStateResponseFactory = (actionContext) =>
-                {
-                    var errors = actionContext.ModelState.Where(P => P.Value.Errors.Count > 0)
-                                              .SelectMany(P => P.Value.Errors)
-                                              .Select(E => E.ErrorMessage)
-                                              .ToArray();
-                    var ValidationErrprResponce = new ApiValidationErrorResponce()
-                    {
-                        Errors = errors
-                    };
-                    return new BadRequestObjectResult(ValidationErrprResponce);
-                };
-            });
-
-
+            builder.Services.AddApplictionServiecs();
 
 
             #endregion
@@ -96,8 +78,7 @@ namespace Talabat.ABIS
             if (app.Environment.IsDevelopment())
             {
                 app.UseMiddleware<ExpestionMiddelwares>();
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwagerMiddelwares();
             }
 
             app.UseStatusCodePagesWithRedirects("/error/{0}");
