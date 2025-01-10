@@ -38,7 +38,8 @@ namespace Talabat.ABIS.Controllers
         //Get Product by Id 
 
         [HttpGet("{id}")]
-
+        [ProducesResponseType(typeof(ProductToReturnDto),200)]
+        [ProducesResponseType(typeof(ApiResponce),404)]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             var Spec = new ProductWithBrandAndtypeSpecification(id);

@@ -19,7 +19,7 @@ namespace Talabat.ABIS.Middelwares
 
         //InvokeAsync
 
-        public async Task InvokAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context)
         {
             try
             {

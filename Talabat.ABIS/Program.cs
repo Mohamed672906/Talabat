@@ -99,6 +99,8 @@ namespace Talabat.ABIS
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseStatusCodePagesWithRedirects("/error/{0}");
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 
