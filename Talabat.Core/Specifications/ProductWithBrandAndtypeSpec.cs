@@ -10,7 +10,15 @@ namespace Talabat.Core.Specifications
     public class ProductWithBrandAndtypeSpecification : BaseSepecification<Product>
     {
         // CTOR Is Used For Get All Product 
-        public ProductWithBrandAndtypeSpecification(string Sort):base()
+        public ProductWithBrandAndtypeSpecification(string Sort, int? BrandId, int? TaybeId)
+            : base(P =>
+            (!BrandId.HasValue || P.ProductBrandId == BrandId)
+            &&
+            (!TaybeId.HasValue || P.ProductTypeId == TaybeId)
+
+
+                 )
+
         {
             Includes.Add(P => P.ProductBrand);
             Includes.Add(P => P.ProductType);
