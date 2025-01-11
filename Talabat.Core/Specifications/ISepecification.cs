@@ -19,5 +19,15 @@ namespace Talabat.Core.Specifications
 
 
 
+        // prop OrderBy [OrderBy (P=>P.Name)]
+
+        public Expression<Func<T , object>> OrderBy { get; set; }
+
+        // prop OrderByDesc [OrderByDesc (P=>P.Name)]
+
+        public Expression<Func<T, object>> OrderByDescending { get; set; }
+
+
+
     }
 }
