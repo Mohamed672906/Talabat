@@ -15,34 +15,34 @@ namespace Talabat.Core.Specifications
             (!Parms.BrandId.HasValue || P.ProductBrandId == Parms.BrandId)
             &&
             (!Parms.TypeId.HasValue || P.ProductTypeId == Parms.TypeId)
-
-
-                 )
+              )
 
         {
+            Includes.Add(P => P.ProductType);   
             Includes.Add(P => P.ProductBrand);
-            Includes.Add(P => P.ProductType);
-            if(! string.IsNullOrEmpty(Parms.Sort))
+            if (!string.IsNullOrEmpty(Parms.Sort))
             {
-                switch(Parms.Sort)
+                switch (Parms.Sort)
                 {
                     case "PriceAsc":
-                        AddOrderBy(P=>P.Price);
+                        AddOrderBy(P => P.Price);
                         break;
                     case "PriceDes":
                         AddOrderByDescending(P => P.Price);
                         break;
                     default:
                         AddOrderBy(P => P.Name);
-                       break;
-                        
+                        break;
+
                 }
             }
 
+
+            ApplyPagination(Parms.PagSize * (Parms.PageIndex - 1), Parms.PagSize);
         }
 
-       // CTOR Is Used For Product By Id 
-        public ProductWithBrandAndtypeSpecification(int id ):base(P=>P.Id == id)
+        // CTOR Is Used For Product By Id 
+        public ProductWithBrandAndtypeSpecification(int id) : base(P => P.Id == id)
         {
 
             Includes.Add(P => P.ProductBrand);

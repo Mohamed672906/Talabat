@@ -10,17 +10,20 @@ namespace Talabat.Core.Specifications
 {
     public class BaseSepecification<T> : ISepecifications<T> where T : BaseEntity
     {
-        public Expression<Func<T, bool>> Criteria { get; set ; }
+        public Expression<Func<T, bool>> Criteria { get; set; }
 
-        public List<Expression<Func<T, object>>> Includes { get; set ; } = new List<Expression<Func<T, object>>>();
-        public Expression<Func<T, object>> OrderBy { get ; set ; }
-        public Expression<Func<T, object>> OrderByDescending { get ; set; }
+        public List<Expression<Func<T, object>>> Includes { get; set; } = new List<Expression<Func<T, object>>>();
+        public Expression<Func<T, object>> OrderBy { get; set; }
+        public Expression<Func<T, object>> OrderByDescending { get; set; }
+        public int Take { get; set; }
+        public int Skip { get; set; }
+        public bool IsPaginationEnable { get; set; }
 
 
         //Get All 
         public BaseSepecification()
         {
-           // Includes = new List<Expression<Func<T, object>>>();
+            // Includes = new List<Expression<Func<T, object>>>();
         }
 
         //Get id 
@@ -37,12 +40,23 @@ namespace Talabat.Core.Specifications
             OrderBy = orderByExpression;
         }
 
-        public void AddOrderByDescending (Expression<Func<T, object>> OrderByDescExpression)
+        public void AddOrderByDescending(Expression<Func<T, object>> OrderByDescExpression)
         {
 
             OrderByDescending = OrderByDescExpression;
 
         }
+
+
+        public void ApplyPagination (int skip , int take )
+        {
+            IsPaginationEnable = true;
+
+            Skip = skip;
+            Take = take; 
+
+        }
+
 
 
 

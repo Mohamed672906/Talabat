@@ -28,6 +28,20 @@ namespace Talabat.Core.Specifications
         public Expression<Func<T, object>> OrderByDescending { get; set; }
 
 
+        // Take (2)
+
+        public int Take { get; set; }
+
+
+        // Skip (2)
+
+        public int Skip { get; set;  }
+
+
+        public bool IsPaginationEnable { get; set;  }
+
+
+
 
     }
 }

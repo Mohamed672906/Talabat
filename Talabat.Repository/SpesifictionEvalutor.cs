@@ -29,10 +29,14 @@ namespace Talabat.Repository
             {
                 Query = Query.OrderBy(Spec.OrderBy);
             }
-
+             
             if (Spec.OrderByDescending is not null)
             {
                 Query = Query.OrderByDescending(Spec.OrderByDescending);
+            }
+            if(Spec.IsPaginationEnable)
+            {
+                Query=Query.Skip(Spec.Skip).Take(Spec.Take);
             }
 
             Query = Spec.Includes.Aggregate(Query, (CurrentQuery, IncludeExpression) => CurrentQuery.Include(IncludeExpression));
