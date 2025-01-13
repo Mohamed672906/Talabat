@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.ABIS.DTOs;
 using Talabat.ABIS.Errors;
+using Talabat.ABIS.Helpers;
 using Talabat.Core.Entites;
 using Talabat.Core.Repositories;
 using Talabat.Core.Specifications;
 
 namespace Talabat.ABIS.Controllers
 {
-  
+
     public class ProductsController : ApiBaseController
     {
         private readonly IGenericRepository<Product> _productRepo;
@@ -18,10 +19,10 @@ namespace Talabat.ABIS.Controllers
         private readonly IGenericRepository<ProductType> _typeRepo;
         private readonly IGenericRepository<ProductBrand> _brandRepo;
 
-        public ProductsController(IGenericRepository<Product> ProductRepo 
-          ,IMapper mapper 
+        public ProductsController(IGenericRepository<Product> ProductRepo
+          , IMapper mapper
           , IGenericRepository<ProductType> TypeRepo
-           , IGenericRepository<ProductBrand> BrandRepo )
+           , IGenericRepository<ProductBrand> BrandRepo)
         {
             _productRepo = ProductRepo;
             _mapper = mapper;
@@ -33,25 +34,27 @@ namespace Talabat.ABIS.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts([FromQuery]ProdctSpecPram Parms)
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProdctSpecPram Parms)
         {
             var Spec = new ProductWithBrandAndtypeSpecification(Parms);
             var Products = await _productRepo.GetAllWithSpecAsync(Spec);
             var MappedProduct = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(Products);
-            return Ok(MappedProduct);
+            var ConntSpec = new ProductWithFiltrationForContAsync(Parms);
+            var Count = await _productRepo.GetCountWithSpecAsync(ConntSpec);
+            return Ok(new Pagination<ProductToReturnDto>(Parms.PageIndex, Parms.PagSize, MappedProduct , Count));
 
-          }
+        }
 
         //Get Product by Id 
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ProductToReturnDto),200)]
-        [ProducesResponseType(typeof(ApiResponce),404)]
+        [ProducesResponseType(typeof(ProductToReturnDto), 200)]
+        [ProducesResponseType(typeof(ApiResponce), 404)]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             var Spec = new ProductWithBrandAndtypeSpecification(id);
             var Products = await _productRepo.GetByIdWithSpecAsync(Spec);
-            if(Products is null) return NotFound(new ApiResponce(404));
+            if (Products is null) return NotFound(new ApiResponce(404));
             var MappedProduct = _mapper.Map<Product, ProductToReturnDto>(Products);
             return Ok(MappedProduct);
 
@@ -66,7 +69,7 @@ namespace Talabat.ABIS.Controllers
 
             var Type = await _typeRepo.GetAllAsync();
 
-             return Ok(Type);
+            return Ok(Type);
         }
 
         //Get All Brand 
