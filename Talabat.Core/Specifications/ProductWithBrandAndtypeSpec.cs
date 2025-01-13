@@ -12,6 +12,8 @@ namespace Talabat.Core.Specifications
         // CTOR Is Used For Get All Product 
         public ProductWithBrandAndtypeSpecification(ProdctSpecPram Parms)
             : base(P =>
+            (string.IsNullOrEmpty(Parms.Search) || P.Name.ToLower().Contains(Parms.Search))
+            &&
             (!Parms.BrandId.HasValue || P.ProductBrandId == Parms.BrandId)
             &&
             (!Parms.TypeId.HasValue || P.ProductTypeId == Parms.TypeId)
