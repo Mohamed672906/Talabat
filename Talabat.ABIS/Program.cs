@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using StackExchange.Redis;
 using Talabat.ABIS.Errors;
 using Talabat.ABIS.Extensions;
 using Talabat.ABIS.Helpers;
@@ -35,7 +37,11 @@ namespace Talabat.ABIS
             });
 
             builder.Services.AddApplictionServiecs();
-
+            builder.Services.AddSingleton<IConnectionMultiplexer>(Options=>
+            {
+                var Connection = builder.Configuration.GetConnectionString("RedisConnection");
+                return ConnectionMultiplexer.Connect(Connection);
+            });
 
             #endregion
 
