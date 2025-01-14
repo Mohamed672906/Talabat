@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Talabat.ABIS.Errors;
 using Talabat.ABIS.Helpers;
+using Talabat.Core;
 using Talabat.Core.Repositories;
 using Talabat.Repository;
 
@@ -12,8 +13,8 @@ namespace Talabat.ABIS.Extensions
         public static IServiceCollection AddApplictionServiecs(this IServiceCollection Services)
         {
 
+            Services.AddScoped<IBaskedReopsitory, BasketRepostiory>();
 
-            
             Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             Services.AddAutoMapper(typeof(MappingProfiles));

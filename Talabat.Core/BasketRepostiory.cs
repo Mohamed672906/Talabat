@@ -30,10 +30,7 @@ namespace Talabat.Core
         {
             var Basket = await _database.StringGetAsync(BasketId);
 
-
             return Basket.IsNull ? null : JsonSerializer.Deserialize<Customerbasket>(Basket);
-
-
         }
 
         public async Task<Customerbasket?> UpdateBasketAsync(Customerbasket Basket)
