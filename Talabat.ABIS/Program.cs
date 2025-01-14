@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ using Talabat.ABIS.Extensions;
 using Talabat.ABIS.Helpers;
 using Talabat.ABIS.Middelwares;
 using Talabat.Core.Entites;
+using Talabat.Core.Entites.Identity;
 using Talabat.Core.Repositories;
 using Talabat.Repository;
 using Talabat.Repository.Data;
@@ -51,9 +53,7 @@ namespace Talabat.ABIS
                 option.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
             });
 
-
-
-
+            builder.Services.AddIdentityServies();
 
 
             #endregion
@@ -81,6 +81,8 @@ namespace Talabat.ABIS
                 var AppIdentityDbContext = Services.GetRequiredService<AppIdentityDbContext>();
                 await AppIdentityDbContext.Database.MigrateAsync();
 
+                var UserManger = Services.GetRequiredService<UserManager<AppUser>>();
+                await AppIdentityDbcontextSeed.SeedUserAsync(UserManger);
 
 
                 await StoreContextSeed.SeedAsync(dbContext);
