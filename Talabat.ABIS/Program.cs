@@ -11,6 +11,7 @@ using Talabat.Core.Entites;
 using Talabat.Core.Repositories;
 using Talabat.Repository;
 using Talabat.Repository.Data;
+using Talabat.Repository.Identity;
 
 namespace Talabat.ABIS
 {
@@ -31,17 +32,29 @@ namespace Talabat.ABIS
             builder.Services.AddSwaggerGen();
 
 
-            builder.Services.AddDbContext<StoreContext>(option=>
+            builder.Services.AddDbContext<StoreContext>(option =>
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
             builder.Services.AddApplictionServiecs();
-            builder.Services.AddSingleton<IConnectionMultiplexer>(Options=>
+            builder.Services.AddSingleton<IConnectionMultiplexer>(Options =>
             {
                 var Connection = builder.Configuration.GetConnectionString("RedisConnection");
                 return ConnectionMultiplexer.Connect(Connection);
             });
+
+            //---
+
+            builder.Services.AddDbContext<AppIdentityDbContext>(option =>
+            {
+                option.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
+            });
+
+
+
+
+
 
             #endregion
 
@@ -56,27 +69,33 @@ namespace Talabat.ABIS
             var Services = Scope.ServiceProvider;
 
             var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
-                        
-           try
+
+            try
             {
 
-            var dbContext = Services.GetRequiredService<StoreContext>();
+                var dbContext = Services.GetRequiredService<StoreContext>();
+                await dbContext.Database.MigrateAsync();
 
-           await dbContext.Database.MigrateAsync();
-           await StoreContextSeed.SeedAsync(dbContext);
+
+
+                var AppIdentityDbContext = Services.GetRequiredService<AppIdentityDbContext>();
+                await AppIdentityDbContext.Database.MigrateAsync();
+
+
+
+                await StoreContextSeed.SeedAsync(dbContext);
+
 
             }
             catch (Exception ex)
             {
                 var Logger = LoggerFactory.CreateLogger<Program>();
-                Logger.LogError(ex,"An Error Occured During Appling The Migration");
+                Logger.LogError(ex, "An Error Occured During Appling The Migration");
             }
-
-
 
             #endregion
 
-            
+
 
             #region Configure
 
@@ -94,11 +113,12 @@ namespace Talabat.ABIS
             app.UseAuthorization();
 
 
-            app.MapControllers(); 
+            app.MapControllers();
             #endregion
 
 
             app.Run();
+
         }
     }
 }
