@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Talabat.ABIS.DTOs;
 using Talabat.ABIS.Errors;
 using Talabat.Core.Entites.Identity;
+using Talabat.Core.Services;
 
 namespace Talabat.ABIS.Controllers
 {
@@ -12,11 +13,15 @@ namespace Talabat.ABIS.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly ITokenService _tokenService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
+            ITokenService tokenService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenService = tokenService;
         }
 
 
@@ -45,7 +50,7 @@ namespace Talabat.ABIS.Controllers
             {
                 DisplayName = User.DisplayName,
                 Email = User.Email,
-                Token = "ThiswillbeToken"
+                Token = await _tokenService.CreateTokenAsync(User, _userManager)
             };
             return Ok(ReturnUser);
 
@@ -65,11 +70,11 @@ namespace Talabat.ABIS.Controllers
             var Result = await _signInManager.CheckPasswordSignInAsync(User, model.Password, false);
             if (!Result.Succeeded) return Unauthorized(new ApiResponce(401));
 
-            return Ok(new UserDto() 
+            return Ok(new UserDto()
             {
                 DisplayName = User.DisplayName,
                 Email = User.Email,
-                Token = "ThiswillbeToken"
+                Token = await _tokenService.CreateTokenAsync(User, _userManager)
             });
         }
 
