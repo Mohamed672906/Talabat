@@ -1,10 +1,12 @@
 ﻿using System.Security.Claims;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.ABIS.DTOs;
 using Talabat.ABIS.Errors;
+using Talabat.ABIS.Extensions;
 using Talabat.Core.Entites.Identity;
 using Talabat.Core.Services;
 
@@ -16,14 +18,19 @@ namespace Talabat.ABIS.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
-        public AccountController(UserManager<AppUser> userManager,
+        public AccountController(
+            UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            IMapper mapper
+                                 )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
 
@@ -95,16 +102,27 @@ namespace Talabat.ABIS.Controllers
             {
                 DisplayName = user.DisplayName,
                 Email = user.Email,
-                Token =await _tokenService.CreateTokenAsync(user, _userManager)
+                Token = await _tokenService.CreateTokenAsync(user, _userManager)
             };
             return Ok(ReturnedDto);
         }
 
 
 
+        //Get Current User Address
 
+        [Authorize]
+        [HttpGet("Address")]
+        public async Task<ActionResult<AddressDto>> GetCurrentUserAddress()
+        {
+            //var Email = User.FindFirstValue(ClaimTypes.Email);
+            //var user = await _userManager.FindByEmailAsync(Email);
 
+            var user = await _userManager.FindUserWithAddressAsync(User);
+            var MappedAddress = _mapper.Map<Address, AddressDto>(user.address);
+            return Ok(MappedAddress);
 
+        }
 
 
 
