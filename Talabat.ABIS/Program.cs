@@ -53,7 +53,7 @@ namespace Talabat.ABIS
                 option.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
             });
 
-            builder.Services.AddIdentityServies();
+            builder.Services.AddIdentityServies(builder.Configuration);
 
 
             #endregion
@@ -109,11 +109,13 @@ namespace Talabat.ABIS
             }
 
             app.UseStatusCodePagesWithRedirects("/error/{0}");
-            app.UseStaticFiles();
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
+           //  app.UseAuthorization();
+
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
             #endregion

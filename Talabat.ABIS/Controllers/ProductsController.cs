@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.ABIS.DTOs;
@@ -32,6 +34,7 @@ namespace Talabat.ABIS.Controllers
 
         //Get All Products
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
 
         public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProdctSpecPram Parms)
@@ -41,7 +44,7 @@ namespace Talabat.ABIS.Controllers
             var MappedProduct = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(Products);
             var ConntSpec = new ProductWithFiltrationForContAsync(Parms);
             var Count = await _productRepo.GetCountWithSpecAsync(ConntSpec);
-            return Ok(new Pagination<ProductToReturnDto>(Parms.PageIndex, Parms.PagSize, MappedProduct , Count));
+            return Ok(new Pagination<ProductToReturnDto>(Parms.PageIndex, Parms.PagSize, MappedProduct, Count));
 
         }
 
