@@ -16,7 +16,7 @@ namespace Talabat.ABIS.Helpers
                       .ForMember(d => d.PictureUrl, O => O.MapFrom<ProductPictuerUrlResove>());
 
 
-            CreateMap<Address , AddressDto>() 
+            CreateMap<Address, AddressDto>().ReverseMap();
 
 
         }

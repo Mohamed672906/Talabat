@@ -2,7 +2,7 @@
 {
     public class AddressDto
     {
-
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LirstName { get; set; }
         public string City { get; set; }

@@ -124,6 +124,22 @@ namespace Talabat.ABIS.Controllers
 
         }
 
+        //Update User Address
+        [Authorize]
+        [HttpPost("Address")]
+        public async Task<ActionResult<AddressDto>> UpdatAdderss(AddressDto UpdateAddress)
+        {
+        
+            var user = await _userManager.FindUserWithAddressAsync(User);
+            var MappedAddress = _mapper.Map<AddressDto, Address>(UpdateAddress);
+            user.address.Id = MappedAddress.Id;
+            user.address = MappedAddress;
+            var Result = await _userManager.UpdateAsync(user);
+            if (!Result.Succeeded) return BadRequest(new ApiResponce(400));
+            return Ok(UpdateAddress);
+
+        }
+
 
 
     }
