@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Globalization;
+using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -41,7 +42,10 @@ namespace Talabat.ABIS.Controllers
 
         public async Task<ActionResult<UserDto>> Register(RegisterDto model)
         {
-
+            if (checkEmailExists(model.Email).Result.Value)
+            {
+                return BadRequest(new ApiResponce(400, "Email is Alreadt is Use"));
+            }
 
             var User = new AppUser()
             {
@@ -49,7 +53,6 @@ namespace Talabat.ABIS.Controllers
                 Email = model.Email,
                 UserName = model.Email.Split('a')[0],
                 PhoneNumber = model.PhoneNumber,
-
             };
 
             var Result = await _userManager.CreateAsync(User, model.Password);
@@ -63,8 +66,9 @@ namespace Talabat.ABIS.Controllers
             };
             return Ok(ReturnUser);
 
-
         }
+
+
 
 
         //Login
@@ -86,6 +90,7 @@ namespace Talabat.ABIS.Controllers
                 Token = await _tokenService.CreateTokenAsync(User, _userManager)
             });
         }
+
 
 
 
@@ -115,21 +120,19 @@ namespace Talabat.ABIS.Controllers
         [HttpGet("Address")]
         public async Task<ActionResult<AddressDto>> GetCurrentUserAddress()
         {
-            //var Email = User.FindFirstValue(ClaimTypes.Email);
-            //var user = await _userManager.FindByEmailAsync(Email);
-
             var user = await _userManager.FindUserWithAddressAsync(User);
             var MappedAddress = _mapper.Map<Address, AddressDto>(user.address);
             return Ok(MappedAddress);
-
         }
+
+
 
         //Update User Address
         [Authorize]
         [HttpPost("Address")]
         public async Task<ActionResult<AddressDto>> UpdatAdderss(AddressDto UpdateAddress)
         {
-        
+
             var user = await _userManager.FindUserWithAddressAsync(User);
             var MappedAddress = _mapper.Map<AddressDto, Address>(UpdateAddress);
             user.address.Id = MappedAddress.Id;
@@ -139,6 +142,25 @@ namespace Talabat.ABIS.Controllers
             return Ok(UpdateAddress);
 
         }
+
+
+
+
+        //Validat Dublicat Email at Registertion
+        [HttpGet("EmailExists")]
+        public async Task<ActionResult<bool>> checkEmailExists(string Email)
+        {
+            // var user =await _userManager.FindByEmailAsync(Email);
+
+            return _userManager.FindByEmailAsync(Email) is not null;
+        }
+
+
+
+
+
+
+
 
 
 
