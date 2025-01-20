@@ -38,6 +38,8 @@ namespace Talabat.ABIS.Extensions
 
             #endregion
 
+            Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             return Services;
         }
 
