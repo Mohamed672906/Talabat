@@ -8,7 +8,7 @@ using Talabat.Core.Specifications;
 
 namespace Talabat.Core.Repositories
 {
-    public interface IGenericRepository<T> where T :BaseEntity
+    public interface IGenericRepository<T> where T : BaseEntity
     {
         #region Without Specification
 
@@ -27,5 +27,12 @@ namespace Talabat.Core.Repositories
         #endregion
 
         Task<int> GetCountWithSpecAsync(ISepecifications<T> Spec);
+
+
+        Task AddAsync(T item);
+        void Update(T item);
+        void Delete(T item);
+
+
     }
 }
