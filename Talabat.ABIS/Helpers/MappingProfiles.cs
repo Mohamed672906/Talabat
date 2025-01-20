@@ -16,12 +16,13 @@ namespace Talabat.ABIS.Helpers
                       .ForMember(d => d.PictureUrl, O => O.MapFrom<ProductPictuerUrlResove>());
 
 
-            CreateMap<Address, AddressDto>().ReverseMap();
+            IMappingExpression<AddressDto, Address> mappingExpression = CreateMap<Address, AddressDto>().ReverseMap();
 
             CreateMap<CustomerBasketDto, Customerbasket>();
 
             CreateMap<BasketitemDto, BasketItem>();
-
+            CreateMap<AddressDto, Core.Entites.Order.Address>();
+            CreateMap <Core.Entites.Identity.Address , AddressDto>();
         }
 
 

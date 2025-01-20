@@ -3,7 +3,9 @@ using Talabat.ABIS.Errors;
 using Talabat.ABIS.Helpers;
 using Talabat.Core;
 using Talabat.Core.Repositories;
+using Talabat.Core.Service;
 using Talabat.Repository;
+using Talabat.Servicse;
 
 namespace Talabat.ABIS.Extensions
 {
@@ -39,6 +41,7 @@ namespace Talabat.ABIS.Extensions
             #endregion
 
             Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            Services.AddScoped<IOrderService, OrderService>();
 
             return Services;
         }
