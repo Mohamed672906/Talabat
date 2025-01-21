@@ -47,7 +47,7 @@ namespace Talabat.ABIS.Controllers
 
 
         [ProducesResponseType(typeof(IReadOnlyList<OrderToReturnDTOs>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponce), StatusCodes.Status404NotFound)]
         [HttpGet]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult<IReadOnlyList<OrderToReturnDTOs>>> GetOrderForUser()
