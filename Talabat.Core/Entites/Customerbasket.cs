@@ -8,15 +8,20 @@ namespace Talabat.Core.Entites
 {
     public class Customerbasket
     {
-        public string Id { get; set;  }
+        public string Id { get; set; }
         public List<BasketItem> Items { get; set; }
 
 
         public Customerbasket(string id)
         {
-            id= Id;
+            id = Id;
         }
 
+
+        public string? PaymentIntendId { get; set; }
+        public string? ClinetSecret { get; set; }
+
+        public int? DeliveryMethod { get; set;  }
 
 
     }
