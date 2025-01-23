@@ -15,10 +15,11 @@ namespace Talabat.ABIS.Extensions
         public static IServiceCollection AddApplictionServiecs(this IServiceCollection Services)
         {
 
+            Services.AddSingleton<IResponseCashService, ResponseCashService>();
             Services.AddScoped<IBaskedReopsitory, BasketRepostiory>();
 
             Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
+                
             Services.AddAutoMapper(typeof(MappingProfiles));
 
             #region Error Handling

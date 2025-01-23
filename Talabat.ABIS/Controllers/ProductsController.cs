@@ -34,7 +34,8 @@ namespace Talabat.ABIS.Controllers
 
         //Get All Products
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [CashedAttribute(300)]
         [HttpGet]
 
         public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProdctSpecPram Parms)
