@@ -1,0 +1,71 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Talabat.ABIS.Errors;
+using Talabat.Repository.Data;
+
+namespace Talabat.ABIS.Controllers
+{
+   
+    public class BuggyController : ApiBaseController
+    {
+
+        private readonly StoreContext _dbContext;
+
+        public BuggyController(StoreContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+
+        [HttpGet("NotFound")]
+
+        public ActionResult GetNotFoundRequest()
+        {
+
+
+            var Product = _dbContext.products.Find(100);
+            if (Product is null) return NotFound(new ApiResponce(404 ));
+            return Ok(Product);
+
+         }
+        //---------------------
+
+        [HttpGet("ServerError")]
+
+        public ActionResult GetServerError()
+        {
+
+            var Product = _dbContext.products.Find(200);
+            var ProductToReturn = Product.ToString();
+            return Ok(ProductToReturn);
+
+        }
+
+        [HttpGet("BadRequest")]
+
+        public ActionResult GetbadResquest()
+        {
+
+            return BadRequest();
+
+
+        }
+
+
+        [HttpGet("BadRequest/{id}")]
+
+        public ActionResult GetBadRequest(int id)
+        {
+
+
+            return Ok();
+
+        }
+
+
+
+
+
+
+    }
+}
